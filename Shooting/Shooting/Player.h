@@ -53,7 +53,7 @@ private:
 	float m_PosX;
 	float m_PosY;
 	float m_Scale;
-	float m_MovmentAmount;
+	const float m_MovmentAmount = 4;
 	int status;
 	int counter;
 };
