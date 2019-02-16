@@ -20,6 +20,7 @@
 #define DISPLAY_WIDTH 1280
 #define DISPLAY_HIGHT 720
 #define MOVE_SPEED 5.f
+
 //struct CUSTOMVERTEX
 //{
 //	FLOAT	x, y, z, rhw;
@@ -49,7 +50,6 @@ Player player;
 
 void Render(void);
 HRESULT InitDinput(HWND hWnd);
-VOID AppProcess();
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp);
 void FreeDx();
 
@@ -131,7 +131,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	D3DXCreateTextureFromFile(
 		g_pD3Device,
-		"test1.png",
+		"Player.png",
 		&g_pTexture[PLAYER_TEX]);
 
 	//DirectInputの初期化関数の呼び出し
@@ -139,8 +139,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	{
 		return 0;
 	}
-
-
 
 	DWORD SyncOld = timeGetTime();	//	システム時間を取得
 	DWORD SyncNow;
@@ -160,7 +158,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 			SyncNow = timeGetTime();
 			if (SyncNow - SyncOld >= 1000 / 60) //	1秒間に60回この中に入るはず
 			{
-				player.render(g_pD3Device, *g_pTexture);
+				Render();
 				player.control(pKeyDevice);
 				SyncOld = SyncNow;
 			}
@@ -175,34 +173,24 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 /**
 *描画処理
 */
-//void Render(void)
-//{
-//	//頂点情報を入れる--------------------------------------
-//	CUSTOMVERTEX player[4]
-//	{
-//		{ g_Player.x - g_Player.scale, g_Player.y - g_Player.scale, 1.f, 1.f, 0xFFFFFFFF, 0.f, 0.f },
-//	{ g_Player.x + g_Player.scale, g_Player.y - g_Player.scale, 1.f, 1.f, 0xFFFFFFFF, 1.f, 0.f },
-//	{ g_Player.x + g_Player.scale, g_Player.y + g_Player.scale, 1.f, 1.f, 0xFFFFFFFF, 1.f, 1.f },
-//	{ g_Player.x - g_Player.scale, g_Player.y + g_Player.scale, 1.f, 1.f, 0xFFFFFFFF, 0.f, 1.f }
-//	};
-//
-//	//画面の消去
-//	g_pD3Device->Clear(0, NULL,
-//		D3DCLEAR_TARGET,
-//		D3DCOLOR_XRGB(0x00, 0x00, 0x00),
-//		1.0, 0);
-//
-//	//描画の開始
-//	g_pD3Device->BeginScene();
-//
-//	g_pD3Device->SetTexture(0, g_pTexture[PLAYER_TEX]);
-//	g_pD3Device->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, player, sizeof(CUSTOMVERTEX));
-//
-//	//描画の終了
-//	g_pD3Device->EndScene();
-//	//表示
-//	g_pD3Device->Present(NULL, NULL, NULL, NULL);
-//}
+void Render(void)
+{
+	//画面の消去
+	g_pD3Device->Clear(0, NULL,
+		D3DCLEAR_TARGET,
+		D3DCOLOR_XRGB(0x00, 0x00, 0x00),
+		1.0, 0);
+
+	//描画の開始
+	g_pD3Device->BeginScene();
+
+	player.render(g_pD3Device, *g_pTexture);
+
+	//描画の終了
+	g_pD3Device->EndScene();
+	//表示
+	g_pD3Device->Present(NULL, NULL, NULL, NULL);
+}
 
 //DirectInputの初期化関数
 HRESULT InitDinput(HWND hWnd)
@@ -237,35 +225,6 @@ HRESULT InitDinput(HWND hWnd)
 	pKeyDevice->Acquire();
 	return S_OK;
 }
-
-//キーボードの処理関数
-//VOID AppProcess()
-//{
-//	//入力を調べ、移動させる
-//	HRESULT hr = pKeyDevice->Acquire();
-//	if ((hr == DI_OK) || (hr == S_FALSE))
-//	{
-//		BYTE diks[256];
-//		pKeyDevice->GetDeviceState(sizeof(diks), &diks);
-//
-//		if (diks[DIK_LEFT] & 0x80)
-//		{
-//			g_Player.x -= 4;
-//		}
-//		if (diks[DIK_RIGHT] & 0x80)
-//		{
-//			g_Player.x += 4;
-//		}
-//		if (diks[DIK_UP] & 0x80)
-//		{
-//			g_Player.y -= 4;
-//		}
-//		if (diks[DIK_DOWN] & 0x80)
-//		{
-//			g_Player.y += 4;
-//		}
-//	}
-//}
 
 /**
 *メッセージ処理
