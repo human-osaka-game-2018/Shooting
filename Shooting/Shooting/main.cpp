@@ -1,12 +1,14 @@
-#include <windows.h>
+ï»¿#include <windows.h>
 #include <mmsystem.h>
 #include <d3dx9.h>
 #include <dinput.h>
+#include <tchar.h>
+#include <locale.h>
 #include"Player.h"
 
 /**
 *@mainpage
-*ƒQ[ƒ€ŠJ”­Œ¤‹†•”ƒTƒ“ƒvƒ‹ƒR[ƒh
+*ã‚²ãƒ¼ãƒ é–‹ç™ºç ”ç©¶éƒ¨ã‚µãƒ³ãƒ—ãƒ«ã‚³ãƒ¼ãƒ‰
 */
 #pragma comment(lib, "winmm.lib")
 #pragma comment(lib, "d3d9.lib")
@@ -15,10 +17,10 @@
 #pragma comment(lib, "dinput8.lib")
 #define SAFE_RELEASE(p) {if(p){(p)->Release(); (p)=NULL;}}
 
-#define TITLE 	TEXT("ƒ[ƒrƒEƒX")
+#define TITLE 	TEXT("ã‚¼ãƒ“ã‚¦ã‚¹")
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1)
-#define DISPLAY_WIDTH 1280
-#define DISPLAY_HIGHT 720
+#define DISPLAY_WIDTH 1280 + 14
+#define DISPLAY_HIGHT 720 + 7
 #define MOVE_SPEED 5.f
 
 //struct CUSTOMVERTEX
@@ -34,15 +36,15 @@
 //	TEXMAX
 //};
 
-//DirectxŠÖŒW----------------------------
-IDirect3DTexture9*	  g_pTexture[TEXMAX];	//	‰æ‘œ‚Ìî•ñ‚ğ“ü‚ê‚Ä‚¨‚­ˆ×‚Ìƒ|ƒCƒ“ƒ^”z—ñ
-IDirect3DDevice9*	  g_pD3Device;		//	Direct3D‚ÌƒfƒoƒCƒX
-D3DPRESENT_PARAMETERS g_D3dPresentParameters;		//	ƒpƒ‰ƒ[ƒ^
+//Directxé–¢ä¿‚----------------------------
+IDirect3DTexture9*	  g_pTexture[TEXMAX];	//	ç”»åƒã®æƒ…å ±ã‚’å…¥ã‚Œã¦ãŠãç‚ºã®ãƒã‚¤ãƒ³ã‚¿é…åˆ—
+IDirect3DDevice9*	  g_pD3Device;		//	Direct3Dã®ãƒ‡ãƒã‚¤ã‚¹
+D3DPRESENT_PARAMETERS g_D3dPresentParameters;		//	ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 D3DDISPLAYMODE		  g_D3DdisplayMode;
-IDirect3D9*			  g_pDirect3D;		//	Direct3D‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX
-										//---------------------------------------
+IDirect3D9*			  g_pDirect3D;		//	Direct3Dã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹
+//---------------------------------------
 
-//DirectInputŠÖŒW
+//DirectInputé–¢ä¿‚
 LPDIRECTINPUT8 pDinput = NULL;
 LPDIRECTINPUTDEVICE8 pKeyDevice = NULL;
 
@@ -54,16 +56,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp);
 void FreeDx();
 
 /**
-*ƒƒCƒ“ƒ‹[ƒ`ƒ“
+*ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³
 */
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	PSTR lpCmdLine, int nCmdShow)
 {
+	setlocale(LC_ALL, "Japanese");   //ãƒ­ã‚±ãƒ¼ãƒ«ï¼ˆåœ°åŸŸè¨€èªï¼‰ã‚’æ—¥æœ¬èªã§ã‚»ãƒƒãƒˆ
 	MSG msg;
 	WNDCLASS Wndclass;
 	HWND hWnd;
 
-	//Windowsî•ñ‚Ìİ’è
+	//Windowsæƒ…å ±ã®è¨­å®š
 	Wndclass.style = CS_HREDRAW | CS_VREDRAW;
 	Wndclass.lpfnWndProc = WndProc;
 	Wndclass.cbClsExtra = Wndclass.cbWndExtra = 0;
@@ -72,30 +75,30 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	Wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	Wndclass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
 	Wndclass.lpszMenuName = NULL;
-	Wndclass.lpszClassName = TITLE;	//ƒNƒ‰ƒX–¼
-									//Window‚Ì“o˜^
+	Wndclass.lpszClassName = TITLE;	//ã‚¯ãƒ©ã‚¹å
+									//Windowã®ç™»éŒ²
 	RegisterClass(&Wndclass);
-	//Window‚Ì¶¬
+	//Windowã®ç”Ÿæˆ
 	hWnd = CreateWindow(
-		TITLE,								//ƒEƒBƒ“ƒhƒE‚ÌƒNƒ‰ƒX–¼
-		TITLE, 							//ƒEƒBƒ“ƒhƒE‚Ìƒ^ƒCƒgƒ‹
-		WS_OVERLAPPEDWINDOW | WS_VISIBLE,	//ƒEƒBƒ“ƒhƒEƒXƒ^ƒCƒ‹
-		CW_USEDEFAULT,						// ƒEƒBƒ“ƒhƒE‚Ì‰¡•ûŒü‚ÌˆÊ’ux
-		CW_USEDEFAULT,						// ƒEƒBƒ“ƒhƒE‚Ìc•ûŒü‚ÌˆÊ’uy
-		DISPLAY_WIDTH,							// Widthi•j
-		DISPLAY_HIGHT,							// Heighti‚‚³j
+		TITLE,								//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚¯ãƒ©ã‚¹å
+		TITLE, 							//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚¿ã‚¤ãƒˆãƒ«
+		WS_OVERLAPPEDWINDOW | WS_VISIBLE,	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¹ã‚¿ã‚¤ãƒ«
+		CW_USEDEFAULT,						// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®æ¨ªæ–¹å‘ã®ä½ç½®x
+		CW_USEDEFAULT,						// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ç¸¦æ–¹å‘ã®ä½ç½®y
+		DISPLAY_WIDTH,							// Widthï¼ˆå¹…ï¼‰
+		DISPLAY_HIGHT,							// Heightï¼ˆé«˜ã•ï¼‰
 		NULL,
 		NULL,
-		hInstance,							// ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX‚Ìƒnƒ“ƒhƒ‹
+		hInstance,							// ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ãƒãƒ³ãƒ‰ãƒ«
 		NULL
 	);
 	if (!hWnd) return 0;
 
-	//DirectX ƒIƒuƒWƒFƒNƒg‚Ì¶¬
+	//DirectX ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç”Ÿæˆ
 	g_pDirect3D = Direct3DCreate9(
 		D3D_SDK_VERSION);
 
-	//Display Mode ‚Ìİ’è
+	//Display Mode ã®è¨­å®š
 	g_pDirect3D->GetAdapterDisplayMode(
 		D3DADAPTER_DEFAULT,
 		&g_D3DdisplayMode);
@@ -107,7 +110,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	g_D3dPresentParameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	g_D3dPresentParameters.Windowed = TRUE;
 
-	//ƒfƒoƒCƒX‚ğì‚é
+	//ãƒ‡ãƒã‚¤ã‚¹ã‚’ä½œã‚‹
 	g_pDirect3D->CreateDevice(
 		D3DADAPTER_DEFAULT,
 		D3DDEVTYPE_HAL,
@@ -115,9 +118,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		D3DCREATE_SOFTWARE_VERTEXPROCESSING,
 		&g_D3dPresentParameters, &g_pD3Device);
 
-	//•`‰æİ’è
+	//æç”»è¨­å®š
 	g_pD3Device->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
-	g_pD3Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);  //SRC‚Ìİ’è
+	g_pD3Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);  //SRCã®è¨­å®š
 	g_pD3Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	g_pD3Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
@@ -126,21 +129,21 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	g_pD3Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 	g_pD3Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 
-	//’¸“_‚É“ü‚ê‚éƒf[ƒ^‚ğİ’è
+	//é ‚ç‚¹ã«å…¥ã‚Œã‚‹ãƒ‡ãƒ¼ã‚¿ã‚’è¨­å®š
 	g_pD3Device->SetFVF(D3DFVF_CUSTOMVERTEX);
 
 	D3DXCreateTextureFromFile(
 		g_pD3Device,
-		"Player.png",
+		_T("Player.png"),
 		&g_pTexture[PLAYER_TEX]);
 
-	//DirectInput‚Ì‰Šú‰»ŠÖ”‚ÌŒÄ‚Ño‚µ
+	//DirectInputã®åˆæœŸåŒ–é–¢æ•°ã®å‘¼ã³å‡ºã—
 	if (FAILED(InitDinput(hWnd)))
 	{
 		return 0;
 	}
 
-	DWORD SyncOld = timeGetTime();	//	ƒVƒXƒeƒ€ŠÔ‚ğæ“¾
+	DWORD SyncOld = timeGetTime();	//	ã‚·ã‚¹ãƒ†ãƒ æ™‚é–“ã‚’å–å¾—
 	DWORD SyncNow;
 
 	timeBeginPeriod(1);
@@ -156,7 +159,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		else
 		{
 			SyncNow = timeGetTime();
-			if (SyncNow - SyncOld >= 1000 / 60) //	1•bŠÔ‚É60‰ñ‚±‚Ì’†‚É“ü‚é‚Í‚¸
+			if (SyncNow - SyncOld >= 1000 / 60) //	1ç§’é–“ã«60å›ã“ã®ä¸­ã«å…¥ã‚‹ã¯ãš
 			{
 				Render();
 				player.control(pKeyDevice);
@@ -171,63 +174,63 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 }
 
 /**
-*•`‰æˆ—
+*æç”»å‡¦ç†
 */
 void Render(void)
 {
-	//‰æ–Ê‚ÌÁ‹
+	//ç”»é¢ã®æ¶ˆå»
 	g_pD3Device->Clear(0, NULL,
 		D3DCLEAR_TARGET,
 		D3DCOLOR_XRGB(0x00, 0x00, 0x00),
 		1.0, 0);
 
-	//•`‰æ‚ÌŠJn
+	//æç”»ã®é–‹å§‹
 	g_pD3Device->BeginScene();
 
 	player.render(g_pD3Device, *g_pTexture);
 
-	//•`‰æ‚ÌI—¹
+	//æç”»ã®çµ‚äº†
 	g_pD3Device->EndScene();
-	//•\¦
+	//è¡¨ç¤º
 	g_pD3Device->Present(NULL, NULL, NULL, NULL);
 }
 
-//DirectInput‚Ì‰Šú‰»ŠÖ”
+//DirectInputã®åˆæœŸåŒ–é–¢æ•°
 HRESULT InitDinput(HWND hWnd)
 {
 	HRESULT hr;
-	//ƒIƒuƒWƒFƒNƒg‚Ìì¬
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½œæˆ
 	if (FAILED(hr = DirectInput8Create(GetModuleHandle(NULL),
 		DIRECTINPUT_VERSION, IID_IDirectInput8, (VOID**)&pDinput, NULL)))
 	{
 		return hr;
 	}
 
-	//ƒfƒoƒCƒX‚Ìì¬
+	//ãƒ‡ãƒã‚¤ã‚¹ã®ä½œæˆ
 	if (FAILED(hr = pDinput->CreateDevice(GUID_SysKeyboard, &pKeyDevice, NULL)))
 	{
 		return hr;
 	}
 
-	//ƒfƒoƒCƒX‚ğƒL[ƒ{[ƒh‚Éİ’è
+	//ãƒ‡ãƒã‚¤ã‚¹ã‚’ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã«è¨­å®š
 	if (FAILED(hr = pKeyDevice->SetDataFormat(&c_dfDIKeyboard)))
 	{
 		return hr;
 	}
 
-	//‹¦’²ƒŒƒxƒ‹‚Ìİ’è
+	//å”èª¿ãƒ¬ãƒ™ãƒ«ã®è¨­å®š
 	if (FAILED(hr = pKeyDevice->SetCooperativeLevel(hWnd, DISCL_NONEXCLUSIVE | DISCL_BACKGROUND)))
 	{
 		return hr;
 	}
 
-	//ƒfƒoƒCƒX‚ğæ“¾‚·‚é
+	//ãƒ‡ãƒã‚¤ã‚¹ã‚’å–å¾—ã™ã‚‹
 	pKeyDevice->Acquire();
 	return S_OK;
 }
 
 /**
-*ƒƒbƒZ[ƒWˆ—
+*ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†
 */
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 {
@@ -241,7 +244,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 }
 
 /**
-*ƒƒ‚ƒŠŠJ•ú
+*ãƒ¡ãƒ¢ãƒªé–‹æ”¾
 */
 void FreeDx()
 {
@@ -257,4 +260,3 @@ void FreeDx()
 	SAFE_RELEASE(g_pD3Device);
 	SAFE_RELEASE(g_pDirect3D);
 }
-
