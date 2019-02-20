@@ -19,9 +19,9 @@
 
 #define TITLE 	TEXT("ゼビウス")
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1)
-#define DISPLAY_WIDTH 1280 + 14
-#define DISPLAY_HIGHT 720 + 7
-#define MOVE_SPEED 5.f
+#define DISPLAY_WIDTH 1280 + 14		
+#define DISPLAY_HIGHT 720 + 49
+
 
 //struct CUSTOMVERTEX
 //{
@@ -81,7 +81,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	//Windowの生成
 	hWnd = CreateWindow(
 		TITLE,								//ウィンドウのクラス名
-		TITLE, 							//ウィンドウのタイトル
+		TITLE, 								//ウィンドウのタイトル
 		WS_OVERLAPPEDWINDOW | WS_VISIBLE,	//ウィンドウスタイル
 		CW_USEDEFAULT,						// ウィンドウの横方向の位置x
 		CW_USEDEFAULT,						// ウィンドウの縦方向の位置y
