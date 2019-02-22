@@ -1,31 +1,16 @@
 #pragma once
+#include"Global.h"
+
 #include <windows.h>
 #include <mmsystem.h>
 #include <d3dx9.h>
 #include <dinput.h>
 
-/**
-*@mainpage
-*ゲーム開発研究部サンプルコード
-*/
 #pragma comment(lib, "winmm.lib")
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "dinput8.lib")
-
-struct CUSTOMVERTEX
-{
-	FLOAT	x, y, z, rhw;
-	DWORD	color;
-	FLOAT	tu, tv;
-};
-
-enum TEXTURE
-{
-	PLAYER_TEX,
-	TEXMAX
-};
 
 class Player
 {

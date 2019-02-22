@@ -1,15 +1,13 @@
-﻿#include <windows.h>
+﻿#include"Global.h"
+#include"Player.h"
+
+#include <windows.h>
 #include <mmsystem.h>
 #include <d3dx9.h>
 #include <dinput.h>
 #include <tchar.h>
 #include <locale.h>
-#include"Player.h"
 
-/**
-*@mainpage
-*ゲーム開発研究部サンプルコード
-*/
 #pragma comment(lib, "winmm.lib")
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
@@ -21,20 +19,6 @@
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1)
 #define DISPLAY_WIDTH 1280 + 14		
 #define DISPLAY_HIGHT 720 + 49
-
-
-//struct CUSTOMVERTEX
-//{
-//	FLOAT	x, y, z, rhw;
-//	DWORD	color;
-//	FLOAT	tu, tv;
-//};
-
-//enum TEXTURE
-//{
-//	PLAYER_TEX,
-//	TEXMAX
-//};
 
 //Directx関係----------------------------
 IDirect3DTexture9*	  g_pTexture[TEXMAX];	//	画像の情報を入れておく為のポインタ配列
