@@ -122,11 +122,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet\Bullet.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bullet\Bullet.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="Player\Player.h" />
   </ItemGroup>
