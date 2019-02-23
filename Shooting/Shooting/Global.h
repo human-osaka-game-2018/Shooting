@@ -27,3 +27,5 @@ struct POSITION
 {
 	float x, y, scale;
 };
+
+void SetCustomvertex(CUSTOMVERTEX* pCustomvertex, POSITION position);
