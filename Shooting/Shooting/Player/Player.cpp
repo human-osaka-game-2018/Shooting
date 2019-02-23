@@ -6,15 +6,8 @@ Player::Player()
 	m_PlayerPos = m_StartPlayerPos;
 }
 
-VOID Player::control(LPDIRECTINPUTDEVICE8 pKeyDevice)
+VOID Player::control(BYTE* diks)
 {
-	//入力を調べ、移動させる
-	HRESULT hr = pKeyDevice->Acquire();
-	if ((hr == DI_OK) || (hr == S_FALSE))
-	{
-		BYTE diks[256];
-		pKeyDevice->GetDeviceState(sizeof(diks), &diks);
-
 		if (diks[DIK_LEFT] & 0x80)
 		{
 			m_PlayerPos.x -= m_MovmentAmount;
@@ -54,7 +47,6 @@ VOID Player::control(LPDIRECTINPUTDEVICE8 pKeyDevice)
 				m_PlayerPos.y = 720 - m_PlayerPos.scale;
 			}
 		}
-	}
 }
 
 void Player::render(IDirect3DDevice9* pD3Device, IDirect3DTexture9* pTexture)
