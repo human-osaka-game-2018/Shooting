@@ -3,62 +3,56 @@
 
 Player::Player()
 {
-	m_PlayerPos = m_StartPlayerPos;
+	m_Pos = m_StartPos;
 }
 
 VOID Player::control(BYTE* diks)
 {
 		if (diks[DIK_LEFT] & 0x80)
 		{
-			m_PlayerPos.x -= m_MovmentAmount;
+			m_Pos.x -= m_MovmentAmount;
 
-			if (0 >= (m_PlayerPos.x - m_PlayerPos.scale))
+			if (0 >= (m_Pos.x - m_Pos.scale))
 			{
-				m_PlayerPos.x = 0 + m_PlayerPos.scale;
+				m_Pos.x = 0 + m_Pos.scale;
 			}
 		}
 
 		if (diks[DIK_RIGHT] & 0x80)
 		{
-			m_PlayerPos.x += m_MovmentAmount;
+			m_Pos.x += m_MovmentAmount;
 
-			if (1280 <= (m_PlayerPos.x + m_PlayerPos.scale))
+			if (1280 <= (m_Pos.x + m_Pos.scale))
 			{
-				m_PlayerPos.x = 1280 - m_PlayerPos.scale;
+				m_Pos.x = 1280 - m_Pos.scale;
 			}
 		}
 
 		if (diks[DIK_UP] & 0x80)
 		{
-			m_PlayerPos.y -= m_MovmentAmount;
+			m_Pos.y -= m_MovmentAmount;
 
-			if (0 >= (m_PlayerPos.y - m_PlayerPos.scale))
+			if (0 >= (m_Pos.y - m_Pos.scale))
 			{
-				m_PlayerPos.y = 0 + m_PlayerPos.scale;
+				m_Pos.y = 0 + m_Pos.scale;
 			}
 		}
 
 		if (diks[DIK_DOWN] & 0x80)
 		{
-			m_PlayerPos.y += m_MovmentAmount;
+			m_Pos.y += m_MovmentAmount;
 
-			if (720 <= (m_PlayerPos.y + m_PlayerPos.scale))
+			if (720 <= (m_Pos.y + m_Pos.scale))
 			{
-				m_PlayerPos.y = 720 - m_PlayerPos.scale;
+				m_Pos.y = 720 - m_Pos.scale;
 			}
 		}
 }
 
 void Player::render(IDirect3DDevice9* pD3Device, IDirect3DTexture9* pTexture)
 {
-	//頂点情報を入れる--------------------------------------
-	CUSTOMVERTEX player[4]
-	{
-		{ m_PlayerPos.x - m_PlayerPos.scale, m_PlayerPos.y - m_PlayerPos.scale, 1.f, 1.f, 0xFFFFFFFF, 0.f, 0.f },
-	{ m_PlayerPos.x + m_PlayerPos.scale, m_PlayerPos.y - m_PlayerPos.scale, 1.f, 1.f, 0xFFFFFFFF, 1.f, 0.f },
-	{ m_PlayerPos.x + m_PlayerPos.scale, m_PlayerPos.y + m_PlayerPos.scale, 1.f, 1.f, 0xFFFFFFFF, 1.f, 1.f },
-	{ m_PlayerPos.x - m_PlayerPos.scale, m_PlayerPos.y + m_PlayerPos.scale, 1.f, 1.f, 0xFFFFFFFF, 0.f, 1.f }
-	};
+	CUSTOMVERTEX player[4];
+	SetCustomvertex(player, m_Pos);
 
 	pD3Device->SetTexture(0, &pTexture[PLAYER_TEX]);
 	pD3Device->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, player, sizeof(CUSTOMVERTEX));
