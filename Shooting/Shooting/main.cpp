@@ -22,6 +22,7 @@ LPDIRECTINPUTDEVICE8 pKeyDevice = NULL;
 
 Player player;
 
+void Control(void);
 void Render(void);
 HRESULT InitDinput(HWND hWnd);
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp);
@@ -133,7 +134,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 			SyncNow = timeGetTime();
 			if (SyncNow - SyncOld >= 1000 / 60) //	1秒間に60回この中に入るはず
 			{
-				player.control(pKeyDevice);
+				Control();
 				Render();
 				SyncOld = SyncNow;
 			}
@@ -166,6 +167,21 @@ void Render(void)
 	//表示
 	g_pD3Device->Present(NULL, NULL, NULL, NULL);
 }
+
+//キーボードの処理関数
+VOID Control()
+{
+	//入力を調べ、移動させる
+	HRESULT hr = pKeyDevice->Acquire();
+	if ((hr == DI_OK) || (hr == S_FALSE))
+	{
+		BYTE diks[256];
+		pKeyDevice->GetDeviceState(sizeof(diks), &diks);
+
+		player.control(diks);
+	}
+}
+
 
 //DirectInputの初期化関数
 HRESULT InitDinput(HWND hWnd)
