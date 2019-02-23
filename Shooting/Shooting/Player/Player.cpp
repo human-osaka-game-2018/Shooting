@@ -1,4 +1,4 @@
-#include"Player.h"
+Ôªø#include"Player.h"
 
 
 Player::Player()
@@ -10,7 +10,7 @@ Player::Player()
 
 VOID Player::control(LPDIRECTINPUTDEVICE8 pKeyDevice)
 {
-	//ì¸óÕÇí≤Ç◊ÅAà⁄ìÆÇ≥ÇπÇÈ
+	//ÂÖ•Âäõ„ÇíË™ø„Åπ„ÄÅÁßªÂãï„Åï„Åõ„Çã
 	HRESULT hr = pKeyDevice->Acquire();
 	if ((hr == DI_OK) || (hr == S_FALSE))
 	{
@@ -61,7 +61,7 @@ VOID Player::control(LPDIRECTINPUTDEVICE8 pKeyDevice)
 
 void Player::render(IDirect3DDevice9* pD3Device, IDirect3DTexture9* pTexture)
 {
-	//í∏ì_èÓïÒÇì¸ÇÍÇÈ--------------------------------------
+	//È†ÇÁÇπÊÉÖÂ†±„ÇíÂÖ•„Çå„Çã--------------------------------------
 	CUSTOMVERTEX player[4]
 	{
 		{ PlayerPos.x - PlayerPos.scale, PlayerPos.y - PlayerPos.scale, 1.f, 1.f, 0xFFFFFFFF, 0.f, 0.f },
