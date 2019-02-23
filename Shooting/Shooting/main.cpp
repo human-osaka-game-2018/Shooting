@@ -145,8 +145,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 			SyncNow = timeGetTime();
 			if (SyncNow - SyncOld >= 1000 / 60) //	1秒間に60回この中に入るはず
 			{
-				Render();
 				player.control(pKeyDevice);
+				Render();
 				SyncOld = SyncNow;
 			}
 		}
