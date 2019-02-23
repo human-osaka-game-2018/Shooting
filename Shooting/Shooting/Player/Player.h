@@ -9,28 +9,29 @@ public:
 
 	inline float getPosX()
 	{
-		return PlayerPos.x;
+		return m_PlayerPos.x;
 	}
 
 	inline float getPosY()
 	{
-		return PlayerPos.y;
+		return m_PlayerPos.y;
 	}
 
 	inline void setPosX(float x)
 	{
-		PlayerPos.x = x;
+		m_PlayerPos.x = x;
 	}
 
 	inline void setPosY(float y)
 	{
-		PlayerPos.y = y;
+		m_PlayerPos.y = y;
 	}
 
 	void control(LPDIRECTINPUTDEVICE8 pKeyDevice);
 	void render(IDirect3DDevice9* g_pD3Device, IDirect3DTexture9* g_pTexture);
 private:
-	POSITION PlayerPos;
+	POSITION m_PlayerPos;
+	const POSITION m_StartPlayerPos = { 150.f ,400.f, 50.f };
 	const float m_MovmentAmount = 4;
 	int status;
 	int counter;

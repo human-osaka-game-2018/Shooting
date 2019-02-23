@@ -1,5 +1,5 @@
 ﻿#include"Global.h"
-#include"Player.h"
+#include"Player/Player.h"
 
 #define SAFE_RELEASE(p) {if(p){(p)->Release(); (p)=NULL;}}
 
@@ -106,7 +106,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	D3DXCreateTextureFromFile(
 		g_pD3Device,
-		_T("Player.png"),
+		_T("Player/Player.png"),
 		&g_pTexture[PLAYER_TEX]);
 
 	//DirectInputの初期化関数の呼び出し

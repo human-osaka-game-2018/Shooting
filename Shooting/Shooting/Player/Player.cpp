@@ -3,9 +3,7 @@
 
 Player::Player()
 {
-	PlayerPos.x = 150.f;
-	PlayerPos.y = 400.f;
-	PlayerPos.scale = 50;
+	m_PlayerPos = m_StartPlayerPos;
 }
 
 VOID Player::control(LPDIRECTINPUTDEVICE8 pKeyDevice)
@@ -19,41 +17,41 @@ VOID Player::control(LPDIRECTINPUTDEVICE8 pKeyDevice)
 
 		if (diks[DIK_LEFT] & 0x80)
 		{
-			PlayerPos.x -= m_MovmentAmount;
+			m_PlayerPos.x -= m_MovmentAmount;
 
-			if (0 >= (PlayerPos.x - PlayerPos.scale))
+			if (0 >= (m_PlayerPos.x - m_PlayerPos.scale))
 			{
-				PlayerPos.x = 0 + PlayerPos.scale;
+				m_PlayerPos.x = 0 + m_PlayerPos.scale;
 			}
 		}
 
 		if (diks[DIK_RIGHT] & 0x80)
 		{
-			PlayerPos.x += m_MovmentAmount;
+			m_PlayerPos.x += m_MovmentAmount;
 
-			if (1280 <= (PlayerPos.x + PlayerPos.scale))
+			if (1280 <= (m_PlayerPos.x + m_PlayerPos.scale))
 			{
-				PlayerPos.x = 1280 - PlayerPos.scale;
+				m_PlayerPos.x = 1280 - m_PlayerPos.scale;
 			}
 		}
 
 		if (diks[DIK_UP] & 0x80)
 		{
-			PlayerPos.y -= m_MovmentAmount;
+			m_PlayerPos.y -= m_MovmentAmount;
 
-			if (0 >= (PlayerPos.y - PlayerPos.scale))
+			if (0 >= (m_PlayerPos.y - m_PlayerPos.scale))
 			{
-				PlayerPos.y = 0 + PlayerPos.scale;
+				m_PlayerPos.y = 0 + m_PlayerPos.scale;
 			}
 		}
 
 		if (diks[DIK_DOWN] & 0x80)
 		{
-			PlayerPos.y += m_MovmentAmount;
+			m_PlayerPos.y += m_MovmentAmount;
 
-			if (720 <= (PlayerPos.y + PlayerPos.scale))
+			if (720 <= (m_PlayerPos.y + m_PlayerPos.scale))
 			{
-				PlayerPos.y = 720 - PlayerPos.scale;
+				m_PlayerPos.y = 720 - m_PlayerPos.scale;
 			}
 		}
 	}
@@ -64,10 +62,10 @@ void Player::render(IDirect3DDevice9* pD3Device, IDirect3DTexture9* pTexture)
 	//頂点情報を入れる--------------------------------------
 	CUSTOMVERTEX player[4]
 	{
-		{ PlayerPos.x - PlayerPos.scale, PlayerPos.y - PlayerPos.scale, 1.f, 1.f, 0xFFFFFFFF, 0.f, 0.f },
-	{ PlayerPos.x + PlayerPos.scale, PlayerPos.y - PlayerPos.scale, 1.f, 1.f, 0xFFFFFFFF, 1.f, 0.f },
-	{ PlayerPos.x + PlayerPos.scale, PlayerPos.y + PlayerPos.scale, 1.f, 1.f, 0xFFFFFFFF, 1.f, 1.f },
-	{ PlayerPos.x - PlayerPos.scale, PlayerPos.y + PlayerPos.scale, 1.f, 1.f, 0xFFFFFFFF, 0.f, 1.f }
+		{ m_PlayerPos.x - m_PlayerPos.scale, m_PlayerPos.y - m_PlayerPos.scale, 1.f, 1.f, 0xFFFFFFFF, 0.f, 0.f },
+	{ m_PlayerPos.x + m_PlayerPos.scale, m_PlayerPos.y - m_PlayerPos.scale, 1.f, 1.f, 0xFFFFFFFF, 1.f, 0.f },
+	{ m_PlayerPos.x + m_PlayerPos.scale, m_PlayerPos.y + m_PlayerPos.scale, 1.f, 1.f, 0xFFFFFFFF, 1.f, 1.f },
+	{ m_PlayerPos.x - m_PlayerPos.scale, m_PlayerPos.y + m_PlayerPos.scale, 1.f, 1.f, 0xFFFFFFFF, 0.f, 1.f }
 	};
 
 	pD3Device->SetTexture(0, &pTexture[PLAYER_TEX]);
