@@ -18,26 +18,24 @@ public:
 	Player();
 	inline float getPosX()
 	{
-		return m_PosX;
+		return PlayerPos.x;
 	}
 	inline float getPosY()
 	{
-		return m_PosY;
+		return PlayerPos.y;
 	}
 	inline void setPosX(float x)
 	{
-		m_PosX = x;
+		PlayerPos.x = x;
 	}
 	inline void setPosY(float y)
 	{
-		m_PosY = y;
+		PlayerPos.y = y;
 	}
 	void control(LPDIRECTINPUTDEVICE8 pKeyDevice);
 	void render(IDirect3DDevice9* g_pD3Device, IDirect3DTexture9* g_pTexture);
 private:
-	float m_PosX;
-	float m_PosY;
-	float m_Scale;
+	POSITION PlayerPos;
 	const float m_MovmentAmount = 4;
 	int status;
 	int counter;
