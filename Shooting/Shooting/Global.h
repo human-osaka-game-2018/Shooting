@@ -18,3 +18,8 @@ enum TEXTURE
 	PLAYER_TEX,
 	TEXMAX
 };
+
+struct POSITION
+{
+	float x, y, scale;
+};
