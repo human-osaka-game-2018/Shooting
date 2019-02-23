@@ -1,18 +1,6 @@
 ﻿#include"Global.h"
 #include"Player.h"
 
-#include <windows.h>
-#include <mmsystem.h>
-#include <d3dx9.h>
-#include <dinput.h>
-#include <tchar.h>
-#include <locale.h>
-
-#pragma comment(lib, "winmm.lib")
-#pragma comment(lib, "d3d9.lib")
-#pragma comment(lib, "d3dx9.lib")
-#pragma comment(lib, "dxguid.lib")
-#pragma comment(lib, "dinput8.lib")
 #define SAFE_RELEASE(p) {if(p){(p)->Release(); (p)=NULL;}}
 
 #define TITLE 	TEXT("ゼビウス")
