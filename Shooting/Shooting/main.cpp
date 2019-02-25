@@ -1,5 +1,6 @@
 ﻿#include"Global.h"
 #include"Player/Player.h"
+#include"Bullet/Bullet.h"
 
 #define SAFE_RELEASE(p) {if(p){(p)->Release(); (p)=NULL;}}
 
@@ -21,6 +22,7 @@ LPDIRECTINPUT8 pDinput = NULL;
 LPDIRECTINPUTDEVICE8 pKeyDevice = NULL;
 
 Player player;
+Bullet bullet(player.getPos());
 
 void Control(void);
 void Render(void);
@@ -61,6 +63,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	int width = Rect.right - Rect.left;
 	int height = Rect.bottom - Rect.top;
+
 	//Windowの生成
 	hWnd = CreateWindow(
 		TITLE,								//ウィンドウのクラス名
@@ -120,6 +123,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		_T("Player/Player.png"),
 		&g_pTexture[PLAYER_TEX]);
 
+	D3DXCreateTextureFromFile(
+		g_pD3Device,
+		_T("Bullet/Bullet.png"),
+		&g_pTexture[BULLET_TEX]);
+
 	//DirectInputの初期化関数の呼び出し
 	if (FAILED(InitDinput(hWnd)))
 	{
@@ -170,7 +178,8 @@ void Render(void)
 	//描画の開始
 	g_pD3Device->BeginScene();
 
-	player.render(g_pD3Device, *g_pTexture);
+	player.render(g_pD3Device, g_pTexture);
+	bullet.render(g_pD3Device, g_pTexture[BULLET_TEX]);
 
 	//描画の終了
 	g_pD3Device->EndScene();

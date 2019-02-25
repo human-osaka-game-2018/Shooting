@@ -20,12 +20,13 @@ struct CUSTOMVERTEX
 enum TEXTURE
 {
 	PLAYER_TEX,
+	BULLET_TEX,
 	TEXMAX
 };
 
 struct POSITION
 {
-	float x, y, scale;
+	float x, y, XScale, YScale;
 };
 
-void SetCustomvertex(CUSTOMVERTEX* pCustomvertex, POSITION position);
+void SetCustomvertex(CUSTOMVERTEX* pCustomvertex, POSITION position, float rightTU = 1.0f, float bottomTV = 1.0f, float leftTU = 0.0f, float topTV = 0.0f);
