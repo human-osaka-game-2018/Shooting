@@ -5,8 +5,8 @@
 
 #define TITLE 	TEXT("ゼビウス")
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1)
-#define DISPLAY_WIDTH 1280 + 14		
-#define DISPLAY_HIGHT 720 + 49
+#define DISPLAY_WIDTH 1280
+#define DISPLAY_HIGHT 720
 
 //Directx関係----------------------------
 IDirect3DTexture9*	  g_pTexture[TEXMAX];	//	画像の情報を入れておく為のポインタ配列
@@ -51,6 +51,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	Wndclass.lpszClassName = TITLE;	//クラス名
 									//Windowの登録
 	RegisterClass(&Wndclass);
+
+	RECT Rect;
+	Rect.left = 0;
+	Rect.top = 0;
+	Rect.right = DISPLAY_WIDTH;
+	Rect.bottom = DISPLAY_HIGHT;
+	AdjustWindowRect(&Rect, WS_OVERLAPPEDWINDOW | WS_VISIBLE, false);
+
+	int width = Rect.right - Rect.left;
+	int height = Rect.bottom - Rect.top;
 	//Windowの生成
 	hWnd = CreateWindow(
 		TITLE,								//ウィンドウのクラス名
@@ -58,8 +68,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		WS_OVERLAPPEDWINDOW | WS_VISIBLE,	//ウィンドウスタイル
 		CW_USEDEFAULT,						// ウィンドウの横方向の位置x
 		CW_USEDEFAULT,						// ウィンドウの縦方向の位置y
-		DISPLAY_WIDTH,							// Width（幅）
-		DISPLAY_HIGHT,							// Height（高さ）
+		width,							// Width（幅）
+		height,							// Height（高さ）
 		NULL,
 		NULL,
 		hInstance,							// アプリケーションインスタンスのハンドル
