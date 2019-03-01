@@ -10,6 +10,12 @@
 #include <tchar.h>
 #include <locale.h>
 
+namespace window
+{
+	const int Width = 1280;
+	const int Height = 720;
+}
+
 struct CUSTOMVERTEX
 {
 	FLOAT	x, y, z, rhw;
