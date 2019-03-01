@@ -6,8 +6,6 @@
 
 #define TITLE 	TEXT("ゼビウス")
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1)
-#define DISPLAY_WIDTH 1280
-#define DISPLAY_HIGHT 720
 
 //Directx関係----------------------------
 IDirect3DTexture9*	  g_pTexture[TEXMAX];	//	画像の情報を入れておく為のポインタ配列
@@ -57,8 +55,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	RECT Rect;
 	Rect.left = 0;
 	Rect.top = 0;
-	Rect.right = DISPLAY_WIDTH;
-	Rect.bottom = DISPLAY_HIGHT;
+	Rect.right = window::Width;
+	Rect.bottom = window::Height;
 	AdjustWindowRect(&Rect, WS_OVERLAPPEDWINDOW | WS_VISIBLE, false);
 
 	int width = Rect.right - Rect.left;
