@@ -19,6 +19,9 @@
     <Filter Include="Bullet">
       <UniqueIdentifier>{5a59c161-7932-40cb-9d01-c43b2e814423}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DirectInput">
+      <UniqueIdentifier>{4f36b64f-863e-4563-9828-4520fc98a17a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -33,6 +36,9 @@
     <ClCompile Include="Bullet\Bullet.cpp">
       <Filter>Bullet</Filter>
     </ClCompile>
+    <ClCompile Include="DirectInput\DirectInput.cpp">
+      <Filter>DirectInput</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global.h">
@@ -43,6 +49,9 @@
     </ClInclude>
     <ClInclude Include="Bullet\Bullet.h">
       <Filter>Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectInput\DirectInput.h">
+      <Filter>DirectInput</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

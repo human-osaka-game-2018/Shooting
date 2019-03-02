@@ -6,9 +6,9 @@
 #include <windows.h>
 #include <mmsystem.h>
 #include <d3dx9.h>
-#include <dinput.h>
 #include <tchar.h>
 #include <locale.h>
+
 
 namespace window
 {

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include"Global.h"
+#include "DirectInput/DirectInput.h"
 
 
 class Player
@@ -12,7 +13,7 @@ public:
 		return m_Pos;
 	}
 
-	void control(BYTE* diks);
+	void control(DirectInput* directInput);
 	void render(IDirect3DDevice9* g_pD3Device, IDirect3DTexture9** g_pTexture);
 private:
 	POSITION m_Pos;
