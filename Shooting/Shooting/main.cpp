@@ -1,4 +1,5 @@
 ﻿#include"Global.h"
+#include "DirectInput/DirectInput.h"
 #include"Player/Player.h"
 #include"Bullet/Bullet.h"
 
@@ -15,16 +16,12 @@ D3DDISPLAYMODE		  g_D3DdisplayMode;
 IDirect3D9*			  g_pDirect3D;		//	Direct3Dのインターフェイス
 //---------------------------------------
 
-//DirectInput関係
-LPDIRECTINPUT8 pDinput = NULL;
-LPDIRECTINPUTDEVICE8 pKeyDevice = NULL;
-
+DirectInput directInput;
 Player player;
 Bullet bullet(player.getPos());
 
 void Control(void);
 void Render(void);
-HRESULT InitDinput(HWND hWnd);
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp);
 void FreeDx();
 
@@ -127,7 +124,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		&g_pTexture[BULLET_TEX]);
 
 	//DirectInputの初期化関数の呼び出し
-	if (FAILED(InitDinput(hWnd)))
+	if (FAILED(directInput.Initialize(hWnd)))
 	{
 		return 0;
 	}
@@ -188,51 +185,10 @@ void Render(void)
 //キーボードの処理関数
 VOID Control()
 {
-	//入力を調べ、移動させる
-	HRESULT hr = pKeyDevice->Acquire();
-	if ((hr == DI_OK) || (hr == S_FALSE))
-	{
-		BYTE diks[256];
-		pKeyDevice->GetDeviceState(sizeof(diks), &diks);
-
-		player.control(diks);
-	}
+	directInput.CaptureKeyState();
+	player.control(&directInput);
 }
 
-
-//DirectInputの初期化関数
-HRESULT InitDinput(HWND hWnd)
-{
-	HRESULT hr;
-	//オブジェクトの作成
-	if (FAILED(hr = DirectInput8Create(GetModuleHandle(NULL),
-		DIRECTINPUT_VERSION, IID_IDirectInput8, (VOID**)&pDinput, NULL)))
-	{
-		return hr;
-	}
-
-	//デバイスの作成
-	if (FAILED(hr = pDinput->CreateDevice(GUID_SysKeyboard, &pKeyDevice, NULL)))
-	{
-		return hr;
-	}
-
-	//デバイスをキーボードに設定
-	if (FAILED(hr = pKeyDevice->SetDataFormat(&c_dfDIKeyboard)))
-	{
-		return hr;
-	}
-
-	//協調レベルの設定
-	if (FAILED(hr = pKeyDevice->SetCooperativeLevel(hWnd, DISCL_NONEXCLUSIVE | DISCL_BACKGROUND)))
-	{
-		return hr;
-	}
-
-	//デバイスを取得する
-	pKeyDevice->Acquire();
-	return S_OK;
-}
 
 /**
 *メッセージ処理
@@ -258,10 +214,6 @@ void FreeDx()
 		SAFE_RELEASE(g_pTexture[i]);
 	}
 
-	if (pKeyDevice)
-	{
-		pKeyDevice->Unacquire();
-	}
 	SAFE_RELEASE(g_pD3Device);
 	SAFE_RELEASE(g_pDirect3D);
 }

@@ -6,9 +6,9 @@ Player::Player()
 	m_Pos = m_StartPos;
 }
 
-VOID Player::control(BYTE* diks)
+VOID Player::control(DirectInput* directInput)
 {
-		if (diks[DIK_LEFT] & 0x80)
+		if (directInput->IsKeyPressed(DIK_LEFT))
 		{
 			m_Pos.x -= m_MovmentAmount;
 
@@ -18,7 +18,7 @@ VOID Player::control(BYTE* diks)
 			}
 		}
 
-		if (diks[DIK_RIGHT] & 0x80)
+		if (directInput->IsKeyPressed(DIK_RIGHT))
 		{
 			m_Pos.x += m_MovmentAmount;
 
@@ -28,7 +28,7 @@ VOID Player::control(BYTE* diks)
 			}
 		}
 
-		if (diks[DIK_UP] & 0x80)
+		if (directInput->IsKeyPressed(DIK_UP))
 		{
 			m_Pos.y -= m_MovmentAmount;
 
@@ -38,7 +38,7 @@ VOID Player::control(BYTE* diks)
 			}
 		}
 
-		if (diks[DIK_DOWN] & 0x80)
+		if (directInput->IsKeyPressed(DIK_DOWN))
 		{
 			m_Pos.y += m_MovmentAmount;
 
