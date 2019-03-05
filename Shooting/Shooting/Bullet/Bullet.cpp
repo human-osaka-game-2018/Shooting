@@ -9,7 +9,7 @@ Bullet::Bullet(POSITION playePosition)
 	m_Pos.XScale = m_BulletYScale;
 }
 
-void Bullet::render(IDirect3DDevice9* pD3Device, IDirect3DTexture9* pTexture)
+void Bullet::Render(IDirect3DDevice9* pD3Device, IDirect3DTexture9* pTexture)
 {
 	CUSTOMVERTEX bullet[4];
 	float Tu = 32 / 392;

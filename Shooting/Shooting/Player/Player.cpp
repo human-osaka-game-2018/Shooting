@@ -6,7 +6,7 @@ Player::Player()
 	m_Pos = m_StartPos;
 }
 
-VOID Player::control(DirectInput* directInput)
+VOID Player::Control(DirectInput* directInput)
 {
 		if (directInput->IsKeyPressed(DIK_LEFT))
 		{
@@ -49,7 +49,7 @@ VOID Player::control(DirectInput* directInput)
 		}
 }
 
-void Player::render(IDirect3DDevice9* pD3Device, IDirect3DTexture9** pTexture)
+void Player::Render(IDirect3DDevice9* pD3Device, IDirect3DTexture9** pTexture)
 {
 	CUSTOMVERTEX player[4];
 	SetCustomvertex(player, m_Pos);

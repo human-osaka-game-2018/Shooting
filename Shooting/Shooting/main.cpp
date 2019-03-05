@@ -18,7 +18,7 @@ IDirect3D9*			  g_pDirect3D;		//	Direct3Dのインターフェイス
 
 DirectInput directInput;
 Player player;
-Bullet bullet(player.getPos());
+Bullet bullet(player.GetPos());
 
 void Control(void);
 void Render(void);
@@ -173,8 +173,8 @@ void Render(void)
 	//描画の開始
 	g_pD3Device->BeginScene();
 
-	player.render(g_pD3Device, g_pTexture);
-	bullet.render(g_pD3Device, g_pTexture[BULLET_TEX]);
+	player.Render(g_pD3Device, g_pTexture);
+	bullet.Render(g_pD3Device, g_pTexture[BULLET_TEX]);
 
 	//描画の終了
 	g_pD3Device->EndScene();
@@ -186,7 +186,7 @@ void Render(void)
 VOID Control()
 {
 	directInput.CaptureKeyState();
-	player.control(&directInput);
+	player.Control(&directInput);
 }
 
 
