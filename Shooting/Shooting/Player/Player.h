@@ -19,6 +19,6 @@ private:
 	POSITION m_Pos;
 	const POSITION m_StartPos = { 150.f ,400.f, 50.f, 50.f };
 	const float m_MovmentAmount = 4;
-	int status;
-	int counter;
+	int m_status;
+	int m_counter;
 };
