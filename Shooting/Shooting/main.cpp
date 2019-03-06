@@ -173,7 +173,7 @@ void Render(void)
 	//描画の開始
 	g_pD3Device->BeginScene();
 
-	player.Render(g_pD3Device, g_pTexture);
+	player.Render(g_pD3Device, g_pTexture[PLAYER_TEX]);
 	bullet.Render(g_pD3Device, g_pTexture[BULLET_TEX]);
 
 	//描画の終了

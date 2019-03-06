@@ -14,7 +14,7 @@ public:
 	}
 
 	void Control(DirectInput* directInput);
-	void Render(IDirect3DDevice9* g_pD3Device, IDirect3DTexture9** g_pTexture);
+	void Render(IDirect3DDevice9* g_pD3Device, IDirect3DTexture9* g_pTexture);
 private:
 	POSITION m_Pos;
 	const POSITION m_StartPos = { 150.f ,400.f, 50.f, 50.f };

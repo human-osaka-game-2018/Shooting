@@ -49,11 +49,11 @@ VOID Player::Control(DirectInput* directInput)
 		}
 }
 
-void Player::Render(IDirect3DDevice9* pD3Device, IDirect3DTexture9** pTexture)
+void Player::Render(IDirect3DDevice9* pD3Device, IDirect3DTexture9* pTexture)
 {
 	CUSTOMVERTEX player[4];
 	SetCustomvertex(player, m_Pos);
 
-	pD3Device->SetTexture(0, pTexture[PLAYER_TEX]);
+	pD3Device->SetTexture(0, pTexture);
 	pD3Device->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, player, sizeof(CUSTOMVERTEX));
 }
